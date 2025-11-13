@@ -243,19 +243,6 @@ Produces:
 
 ---
 
-## 📊 Results & Threshold Tuning
-
-To compute probabilities & optimize thresholds:
-
-```bash
-python compute_logits_and_labels.py
-python tune_thresholds.py
-```
-
-This helps improve precision/recall for each head independently.
-
----
-
 ## 📝 License
 
 This project is provided for the SMARTM2M technical test.  
