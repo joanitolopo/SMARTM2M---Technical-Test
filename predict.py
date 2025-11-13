@@ -48,7 +48,6 @@ def load_model(path=MODEL_PATH, device=DEVICE):
     - Supports checkpoints saved as {'model_state_dict': state_dict, ...} or raw state_dict.
     - Auto-remaps head key names 'heads.head_0.*' <-> 'heads.0.*' depending on which present.
     """
-    # instantiate model (must match architecture)
     model = MultiHeadCNN(num_heads=len(LABEL_KEYS))
     # load checkpoint
     ckpt = torch.load(path, map_location=device)
@@ -124,7 +123,6 @@ def predict_image(img: Image.Image, model, device=DEVICE, threshold=0.5):
         probs = torch.sigmoid(logits).cpu().numpy()[0]  # shape (5,)
     preds = (probs >= threshold).astype(int)
     result = {k: {'prob': float(p),'pred': int(pred)} for k,pred,k,p in zip(preds, probs, LABEL_KEYS, probs)}
-    # but zip above is wrong ordering; construct properly:
     res = {}
     for i,k in enumerate(LABEL_KEYS):
         res[k] = {'prob': float(probs[i]), 'pred': int(preds[i])}

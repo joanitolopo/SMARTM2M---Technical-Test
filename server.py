@@ -16,7 +16,7 @@ from predict import load_model, predict_image, LABEL_KEYS  # reuse
 MODEL_PATH = "best_multihead.pth"
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 THRESHOLD = 0.5
-EMA_ALPHA = 0.4  # smoothing factor for probabilities (0..1), higher = more reactive
+EMA_ALPHA = 0.4 
 
 app = FastAPI()
 model = load_model(MODEL_PATH, DEVICE)

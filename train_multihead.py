@@ -24,7 +24,7 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 import torchvision.transforms as T
 
-DATA_DIR = "/content/drive/MyDrive/Non Academic/SMARTM2M - Technical Test/car_dataset_cropped"    # dataset root (images/, labels/)
+DATA_DIR = "/content/drive/MyDrive/Non Academic/SMARTM2M - Technical Test/car_dataset_cropped" 
 IMAGE_SIZE = (160, 160)             # input size
 BATCH_SIZE = 32
 NUM_WORKERS = 4
@@ -77,7 +77,6 @@ class CarComponentsDataset(Dataset):
         with open(label_path, 'r') as f:
             label_json = json.load(f)
 
-        # multi-hot vector according to LABEL_KEYS
         label_vec = []
         for k in LABEL_KEYS:
             val = label_json.get(k, "closed")
@@ -92,7 +91,6 @@ class CarComponentsDataset(Dataset):
 class MultiHeadCNN(nn.Module):
     def __init__(self, num_heads=len(LABEL_KEYS), backbone_out_features=128, head_hidden=64):
         super().__init__()
-        # Shared backbone (same as before)
         self.backbone = nn.Sequential(
             nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(32),
@@ -110,7 +108,6 @@ class MultiHeadCNN(nn.Module):
             nn.AdaptiveAvgPool2d((1,1))
         )
 
-        # Heads: a small MLP per component producing 1 logit
         self.heads = nn.ModuleDict()
         for i in range(num_heads):
             self.heads[f"head_{i}"] = nn.Sequential(
@@ -288,7 +285,6 @@ def make_loss(pos_weight_dict=None, device=DEVICE):
         for k in LABEL_KEYS:
             pw.append(float(pos_weight_dict.get(k, 1.0)))
         pos_weight_tensor = torch.tensor(pw, dtype=torch.float32, device=device)
-        # BCEWithLogitsLoss accepts pos_weight for per-element weighting (applied to positive examples)
         return nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
 
 # ----------------------------

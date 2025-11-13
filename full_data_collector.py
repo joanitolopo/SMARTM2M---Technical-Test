@@ -41,7 +41,6 @@ class ImprovedCarDataCollector:
             'hood': 'Hood'
         }
 
-        # track current state (closed/open)
         self.current_state = {k: 'closed' for k in self.components.keys()}
 
     def setup_directories(self):
@@ -76,7 +75,7 @@ class ImprovedCarDataCollector:
 
     def open_page(self):
         self.driver.get(self.url)
-        time.sleep(4)  # wait for model & UI to load
+        time.sleep(4)
         print(f"✅ Page loaded: {self.url}")
 
     def find_canvas_element(self):
@@ -112,11 +111,11 @@ class ImprovedCarDataCollector:
     def click_button(self, button):
         try:
             button.click()
-            time.sleep(1.5)  # wait animation
+            time.sleep(1.5) 
             return True
         except Exception as e:
             try:
-                # fallback: use JS click
+                
                 self.driver.execute_script("arguments[0].click();", button)
                 time.sleep(1.5)
                 return True
@@ -217,7 +216,7 @@ class ImprovedCarDataCollector:
                     self.driver.execute_script(self.HIDE_JS)
                 except Exception:
                     pass
-                time.sleep(0.05)  # let layout update
+                time.sleep(0.05) 
                 png = canvas.screenshot_as_png
                 img = Image.open(io.BytesIO(png)).convert("RGB")
                 # restore overlays
@@ -232,14 +231,10 @@ class ImprovedCarDataCollector:
                     self.driver.execute_script(self.RESTORE_JS)
                 except Exception:
                     pass
-                    # continue to fallback
-        # Fallback: full screenshot and basic crop (center area)
         try:
             png = self.driver.get_screenshot_as_png()
             img = Image.open(io.BytesIO(png)).convert("RGB")
             w,h = img.size
-            # default crop: center area where car sits (tunable)
-            # crop box can be tuned if needed
             left = int(w * 0.15)
             top = int(h * 0.12)
             right = int(w * 0.85)
@@ -265,7 +260,6 @@ class ImprovedCarDataCollector:
         img_resized = img.resize((640, 480), Image.Resampling.LANCZOS)
 
         if confirm:
-            # show a tiny preview? terminal cannot show image; so ask textual confirmation
             ans = input(f"Save screenshot '{filename}'? [y/n/q]: ").strip().lower()
             if ans in ('q', 'quit'):
                 print("🛑 User requested quit.")
