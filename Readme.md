@@ -256,15 +256,6 @@ This helps improve precision/recall for each head independently.
 
 ---
 
-## 🛣 Roadmap (Optional Improvements)
-
-- Add temporal smoothing for realtime stability
-- Collect dataset under more lighting conditions
-- Build a polished full UI instead of injected console widget
-- Deploy backend with HTTPS and WSS support
-
----
-
 ## 📝 License
 
 This project is provided for the SMARTM2M technical test.  
