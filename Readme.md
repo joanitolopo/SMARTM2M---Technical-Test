@@ -6,8 +6,6 @@
 
 ## 🚗 Project Overview
 
-This project was developed as part of the **Senior AI Engineer Technical Test** for **SMARTM2M Indonesia (South Korea Group)**.
-
 The goal is to build a fully working end-to-end system that can:
 
 - Detect **five car components** (Open / Closed):
